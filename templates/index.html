@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("{{ url_for('static', filename='agri.jpg') }}") no-repeat center center/cover;
+            font-family: 'Arimo', sans-serif;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6); /* semi-transparent dark background */
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'Pacifico', cursive;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 6px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #pred {
+            margin-top: 20px;
+            color: #ffeb3b;
+            font-size: 18px;
+            font-weight: bold;
+        }
+     
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crop Prediction</h1>
+        <form action="{{ url_for('predict') }}" method="post">
+            <input type="text" name="Nitrogen" placeholder="Nitrogen" required="required"/>
+            <input type="text" name="Phosphorus" placeholder="Phosphorus" required="required"/>
+            <input type="text" name="Potassium" placeholder="Potassium" required="required"/>
+            <input type="text" name="Temperature" placeholder="Temperature" required="required"/>
+            <input type="text" name="Humidity" placeholder="Humidity" required="required"/>
+            <input type="text" name="Ph" placeholder="pH" required="required"/>
+            <input type="text" name="Rainfall" placeholder="Rainfall (cm)" required="required"/>
+
+            <button type="submit">Predict</button>
+        </form>
+        {% if predicted_text %}
+        <h2 id="pred">{{ predicted_text }}</h2>
+        {% endif %}
+    </div>
+<div>
+    <h2 style="color:white;">🌱 Agricultural Helper Agent</h2>
+    <form action="{{ url_for('agent') }}" method="post">
+        <input type="text" name="query" placeholder="Ask me about crops, fertilizers, irrigation..."/>
+        <button type="submit">Ask</button>
+    </form>
+
+    {% if agent_response %}
+        <div style="background:#2e7d32; color:white; padding:12px; margin-top:10px; border-radius:10px;">
+            <strong>Agent:</strong> {{ agent_response }}
+        </div>
+    {% endif %}
+
+</body>
+</html>
